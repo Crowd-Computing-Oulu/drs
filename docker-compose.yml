@@ -1,11 +1,5 @@
 version: '3'
 services:
-  # mimic3-server:
-  #   image: mycroftai/docker-mycroft
-  #   ports:
-  #     - "9000:8181"
-  #   container_name: mimic3-server
-    
   speech-synthesis-server:
     image: r8.im/suno-ai/bark
     ports:
@@ -13,40 +7,40 @@ services:
     runtime: nvidia
     container_name: speech-synthesis-server
 
-  # speech-recognition-server:
-  #   build:
-  #     context: ./whisper.api
-  #   ports:
-  #     - "9001:7860"
-  #   container_name: speech-recognition-server
-  #   environment:
-  #     # BuildKit has to be disabled because of Conflict
-  #     - COMPOSE_DOCKER_CLI_BUILD=0
-  #     - ALGORITHM="idk"
-  #     - SERVER_NAME="whisper-server"
-  #     - SECRET_KEY="idk"
-  #     - SERVER_HOST="/"
-  #     - POSTGRES_DATABASE_URL="idk"
+  speech-recognition-server:
+    build:
+      context: ./whisper.api
+    ports:
+      - "9001:7860"
+    container_name: speech-recognition-server
+    environment:
+      # BuildKit has to be disabled because of Conflict
+      - COMPOSE_DOCKER_CLI_BUILD=0
+      - ALGORITHM="idk"
+      - SERVER_NAME="whisper-server"
+      - SECRET_KEY="idk"
+      - SERVER_HOST="/"
+      - POSTGRES_DATABASE_URL="idk"
 
-  # conversational-agent-server:
-  #   image: rasa/rasa:3.6.12-full
-  #   ports:
-  #     - "9002:5005"
-  #   volumes:
-  #     - ./:/app
-  #     - ./rasa-bot/models:/app_models
-  #     - ./rasa-bot/config:/app/config
-  #     - ./rasa-bot/actions:/app/actions
-  #   command:
-  #     - run
-  #   container_name: conversational-agent-server
+  conversational-agent-server:
+    image: rasa/rasa:3.6.12-full
+    ports:
+      - "9002:5005"
+    volumes:
+      - ./:/app
+      - ./rasa-bot/models:/app_models
+      - ./rasa-bot/config:/app/config
+      - ./rasa-bot/actions:/app/actions
+    command:
+      - run
+    container_name: conversational-agent-server
 
-  # webui-server:
-  #   build:
-  #     context: ./web-ui
-  #   image: web-ui-server
-  #   ports:
-  #     - "8080:80"
-  #   volumes:
-  #     - ./web-db:/web-db
-  #   container_name: webui-server
+  webui-server:
+    build:
+      context: ./web-ui
+    image: web-ui-server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web-db:/web-db
+    container_name: webui-server
