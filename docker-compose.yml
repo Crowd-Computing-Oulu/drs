@@ -23,18 +23,24 @@ services:
       - POSTGRES_DATABASE_URL="idk"
 
   conversational-agent-server:
-    image: rasa/rasa:3.6.12-full
+    build:
+      context: ./rasa-bot
     ports:
       - "9002:5005"
     volumes:
-      - ./:/app
-      - ./rasa-bot/models:/app_models
-      - ./rasa-bot/config:/app/config
-      - ./rasa-bot/actions:/app/actions
-    command:
-      - run
+      - ./rasa-bot/models/:/app/models/:rw
+      - ./rasa-bot/data/:/app/data/
+      - ./rasa-bot/config.yml:/app/config.yml
+      - ./rasa-bot/actions/:/app/actions/
+    command: 
+      - train 
     container_name: conversational-agent-server
-
+    # RAM limit need a little bump for building Rasa
+    deploy:
+      resources:
+        limits:
+          memory: '512M'
+    
   webui-server:
     build:
       context: ./web-ui
@@ -44,3 +50,5 @@ services:
     volumes:
       - ./web-db:/web-db
     container_name: webui-server
+
+  
