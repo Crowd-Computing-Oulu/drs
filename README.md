@@ -1,2 +1,17 @@
-# msc-thesis
+# Dani's Robot Server - DRS
+
+A combination of Docker services to provide a conversational agent (e.g. one embodied by a Pepper humanoid social robot)with conversational abilities:
+
+1. Speech Recognition → **Whisper**
+2. Natural Language Understanding → **Rasa**
+3. Speech Synthesis → **Bark**
+4. Web GUI → **PHP**
  
+## Usage
+
+1. Make sure python 3.8 is installed, as it is needed for Rasa
+     1. MacOS: `brew install python@3.8`
+2. Install Rasa: `python3.8 -m pip install rasa`
+3. Make sure you have [Docker](https://docs.docker.com/desktop/) installed and running
+4. Start the containers with `start-servers.sh`
+5. Validate that all containers are running with `validate-containers.sh`
