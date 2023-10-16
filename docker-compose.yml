@@ -1,10 +1,11 @@
 version: '3'
 services:
   speech-synthesis-server:
-    image: r8.im/suno-ai/bark
+    image: r8.im/suno-ai/bark@sha256:8418ea81741ac6f5ae6f9c4a2bd6adc4c9208b6d31be5fcfa4313e054aebd12d
     ports:
       - "9000:5000"
-    runtime: nvidia
+    # If you have a working nvidia GPU, speech synthesis can be ran on that for a performance boost
+    # runtime: nvidia
     container_name: speech-synthesis-server
 
   speech-recognition-server:
@@ -16,11 +17,19 @@ services:
     environment:
       # BuildKit has to be disabled because of Conflict
       - COMPOSE_DOCKER_CLI_BUILD=0
-      - ALGORITHM="idk"
-      - SERVER_NAME="whisper-server"
-      - SECRET_KEY="idk"
-      - SERVER_HOST="/"
-      - POSTGRES_DATABASE_URL="idk"
+
+  postgres:
+      image: postgres:latest
+      container_name: speech-recognition-server-db 
+      restart: always
+      environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+      ports:
+      - '5432:5432'
+      volumes:
+      - ./whisper-postgres-db:/var/lib/postgresql/data
 
   conversational-agent-server:
     build:
@@ -44,7 +53,6 @@ services:
   webui-server:
     build:
       context: ./web-ui
-    image: web-ui-server
     ports:
       - "8080:80"
     volumes:
