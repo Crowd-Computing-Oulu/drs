@@ -6,7 +6,10 @@ A combination of Docker services to provide a conversational agent (e.g. one emb
 2. Natural Language Understanding → **Rasa**
 3. Speech Synthesis → **Bark**
 4. Web GUI → **PHP**
- 
+
+# Clients
+
+1. [Pepper Robot (NaoQi Python)](https://github.com/szabodanika/drs-naoqi-client)
 ## Usage
 
 1. Make sure python 3.8 is installed, as it is needed for Rasa
