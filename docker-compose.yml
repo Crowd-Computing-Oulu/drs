@@ -17,38 +17,50 @@ services:
     environment:
       # BuildKit has to be disabled because of Conflict
       - COMPOSE_DOCKER_CLI_BUILD=0
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
 
   postgres:
-      image: postgres:latest
-      container_name: speech-recognition-server-db 
-      restart: always
-      environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db
-      ports:
-      - '5432:5432'
-      volumes:
-      - ./whisper-postgres-db:/var/lib/postgresql/data
+    image: postgres:latest
+    container_name: speech-recognition-server-db 
+    restart: always
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=db
+    ports:
+    - '5432:5432'
+    volumes:
+    - ./whisper-postgres-db:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   conversational-agent-server:
+    # image: rasa/rasa
     build:
       context: ./rasa-bot
+    restart: "always"
     ports:
-      - "9002:5005"
+      - 5005:5005
     volumes:
       - ./rasa-bot/models/:/app/models/:rw
       - ./rasa-bot/data/:/app/data/
       - ./rasa-bot/config.yml:/app/config.yml
       - ./rasa-bot/actions/:/app/actions/
     command: 
-      - train 
+      - run
     container_name: conversational-agent-server
-    # RAM limit need a little bump for building Rasa
     deploy:
       resources:
         limits:
-          memory: '512M'
+          cpus: '1'
+          memory: 1G
     
   webui-server:
     build:
@@ -58,5 +70,10 @@ services:
     volumes:
       - ./web-db:/web-db
     container_name: webui-server
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
   

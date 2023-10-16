@@ -1,3 +1,3 @@
-./whisper.api
-./rasa-bot/models/
-./rasa-bot/rasa/
+whisper.api
+rasa-bot/models/
+rasa-bot/.rasa/
