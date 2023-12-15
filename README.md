@@ -9,7 +9,10 @@ A combination of Docker services to provide a conversational agent (e.g. one emb
 
 # Clients
 
-1. [Pepper Robot (NaoQi Python)](https://github.com/szabodanika/drs-naoqi-client)
+1. [Pepper Robot (NaoQi Python)](https://github.com/Crowd-Computing-Oulu/drs-naoqi-client)
+2. [WatchOS (Swift)](https://github.com/Crowd-Computing-Oulu/watchos-drs-client)
+3. Pepper Robot (Android) - Soon
+   
 ## Usage
 
 1. Make sure python 3.8 is installed, as it is needed for Rasa
