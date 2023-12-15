@@ -1,4 +1,4 @@
-# Dani's Robot Server - DRS
+# Docker Robot Server - DRS
 
 A combination of Docker services to provide a conversational agent (e.g. one embodied by a Pepper humanoid social robot)with conversational abilities:
 
