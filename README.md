@@ -33,3 +33,30 @@ Trying Rasa locally without Docker
 
 Curl Rasa Test
 `curl --request POST http://localhost:5005/webhooks/rest/webhook --header 'content-type: application/json' --data '{ }"message": "hi" }' `
+
+
+# Preparing Whisper API
+
+1. Create user account
+```sh
+curl -X 'POST' \
+  'http://localhost:9001/api/v1/users/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "user@email.com",
+  "username": "whisper",
+  "password": "whisper"
+}'
+```
+2. Get api token
+```sh
+curl -X 'POST' \
+  'http://localhost:9001/api/v1/users/get_token' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "user@email.com",
+  "password": "whisper"
+}'
+```
