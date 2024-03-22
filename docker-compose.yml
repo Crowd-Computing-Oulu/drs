@@ -1,13 +1,28 @@
 version: '3'
 services:
+  # speech-synthesis-server:
+  #   image: r8.im/suno-ai/bark@sha256:8418ea81741ac6f5ae6f9c4a2bd6adc4c9208b6d31be5fcfa4313e054aebd12d
+  #   ports:
+  #     - "9000:5000"
+  #   # If you have a working nvidia GPU, speech synthesis can be ran on that for a performance boost
+  #   # runtime: nvidia
+  #   container_name: speech-synthesis-server
+
   speech-synthesis-server:
-    image: r8.im/suno-ai/bark@sha256:8418ea81741ac6f5ae6f9c4a2bd6adc4c9208b6d31be5fcfa4313e054aebd12d
+    image: mycroftai/mimic3:latest
     ports:
-      - "9000:5000"
+      - "59125:59125"
     # If you have a working nvidia GPU, speech synthesis can be ran on that for a performance boost
     # runtime: nvidia
+    volumes:
+    - ./mimic3:/home/mimic3/.local/share/mycroft/mimic3
     container_name: speech-synthesis-server
-
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+          
   speech-recognition-server:
     build:
       context: ./whisper.api
@@ -62,18 +77,18 @@ services:
           cpus: '1'
           memory: 1G
     
-  webui-server:
-    build:
-      context: ./web-ui
-    ports:
-      - "8080:80"
-    volumes:
-      - ./web-db:/web-db
-    container_name: webui-server
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
+  # webui-server:
+  #   build:
+  #     context: ./web-ui
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./web-db:/web-db
+  #   container_name: webui-server
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '0.5'
+  #         memory: 512M
 
   
