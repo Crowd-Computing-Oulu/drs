@@ -4,14 +4,15 @@ A combination of Docker services to provide a conversational agent (e.g. one emb
 
 1. Speech Recognition → **Whisper**
 2. Natural Language Understanding → **Rasa**
-3. Speech Synthesis → **Bark**
+3. Speech Synthesis → **Mimic 3**
 4. Web GUI → **PHP**
 
 # Clients
 
-1. [Pepper Robot (NaoQi Python)](https://github.com/Crowd-Computing-Oulu/drs-naoqi-client)
-2. [WatchOS (Swift)](https://github.com/Crowd-Computing-Oulu/watchos-drs-client)
-3. Pepper Robot (Android) - Soon
+1. [WatchOS (Swift)](https://github.com/Crowd-Computing-Oulu/watchos-drs-client)
+2. [Pepper Robot (Android Java) DRS Client](https://github.com/Crowd-Computing-Oulu/pepper-drs-client)
+   
+(Deprecated: [Pepper Robot (NaoQi Python)](https://github.com/Crowd-Computing-Oulu/drs-naoqi-client))
    
 ## Usage
 
