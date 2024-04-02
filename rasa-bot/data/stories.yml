@@ -2,29 +2,78 @@ version: "3.1"
 
 stories:
 
-- story: happy path
+- story: robot_how_to_use
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+  - intent: who_are_you
+  - action: utter_iamabot
+  - intent: how_to_use
+  - action: utter_instructions
+  - intent: goodbye
   - action: utter_goodbye
+
+- story: robot_only_nav_to_red_triangle1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: how_to_use
+  - action: utter_instructions
+  - intent: init_nav
+  - action: utter_ask_destination
+  - intent: init_nav_red_triangle
+  - action: utter_robot_only_nav_to_red_triangle
+  - intent: thank_you
+  - action: utter_no_problem
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: robot_only_nav_to_red_triangle2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: init_nav
+  - action: utter_ask_destination
+  - intent: init_nav_red_triangle
+  - action: utter_robot_only_nav_to_red_triangle
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: robot_only_nav_to_blue_triangle1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: how_to_use
+  - action: utter_instructions
+  - intent: init_nav
+  - action: utter_ask_destination
+  - intent: init_nav_blue_triangle
+  - action: utter_robot_only_nav_to_blue_triangle
+  - intent: goodbye
+  - action: utter_goodbye
+  - intent: thank_you
+  - action: utter_no_problem
+
+- story: robot_only_nav_to_blue_triangle2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: init_nav
+  - action: utter_ask_destination
+  - intent: init_nav_blue_triangle
+  - action: utter_robot_only_nav_to_blue_triangle
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: who_are_you
+  - action: utter_iamabot
+  - intent: init_nav
+  - action: utter_ask_destination
+  - intent: init_nav_red_triangle
+  - action: utter_robot_only_nav_to_red_triangle
+  - intent: thank_you
+  - action: utter_no_problem

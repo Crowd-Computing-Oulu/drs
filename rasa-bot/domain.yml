@@ -5,29 +5,67 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - who_are_you
+  - how_to_use
+  - init_nav
+  - repeat
+  - init_nav_red_triangle
+  - init_nav_blue_triangle
+  - ask_transfer_to_wearable
+  - thank_you
+
+actions:
+  - action_repeat
+  - action_transfer_to_wearable
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
+  - text: "Hey, how are you?"
+  - text: "Hi there. Nice to meet you."
+  - text: "Hello, I am Pepper."
+  - text: "Hello, How are you doing?"
+  - text: "Howdy"
+  - text: "Hi. How can I help you?"
+  - text: "Hello. How may help you today?"
+  - text: "Hi there. What can I do for you?"
 
   utter_goodbye:
-  - text: "Bye"
+  - text: "See you later!"
+  - text: "Take care!"
+  - text: "Until next time!"
+  - text: "Catch you later!"
+  - text: "Have a great day!"
+  - text: "Bye for now!"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "I am Pepper. My purpose is to help you find your destination."
+  - text: "My name is Pepper. I will be helping you with finding your way."
+  - text: "Greetings! I'm Pepper, your helpful guide for navigating to your destination."
+  - text: "Hello! I'm Pepper, your personal assistant here to assist you in finding your way."
+  - text: "Hi there! I'm Pepper, designed to assist you with navigation."
+  - text: "Greetings! My name is Pepper, and I'm here to guide you to your destination."
+
+  utter_instructions:
+  - text: "Just press the speak button and talk to me. Give it a try!"
+
+  utter_ask_destination:
+  - text: "Where would you like to go?"
+  - text: "What is your destination?"
+  - text: "Where would you like to go?"
+  - text: "What are you looking for?"
+
+  utter_no_problem:
+  - text: "No problem!"
+  - text: "Glad to be of help!"
+  - text: "My pleasure!"
+  - text: "You're welcome!"
+
+  utter_robot_only_nav_to_red_triangle:
+  - text: "First, you need to walk towards the green circle. Then, turn right and when you reach the blue triangle, walk past the yellow square to find the red triangle."
+
+  utter_robot_only_nav_to_blue_triangle:
+  - text: "First, you need to walk towards the blue circle. Then, turn right and when you reach the blue square, walk past the yellow square to find the blue triangle."
+
 
 session_config:
   session_expiration_time: 60

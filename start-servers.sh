@@ -32,5 +32,8 @@
     echo "Destination directory is not empty. Skipping download."
 fi
 
-# 3. Run Docker Compose which will build the images ands start the 3 servers
+# 3. Run Docker Compose which will build the images ands start the 4 servers
+# for some reason webui has to be rebuilt explicitly
+    # docker compose up --build webui-server
     docker compose up
+

@@ -21,7 +21,7 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 2G
+          memory: 256M
           
   speech-recognition-server:
     build:
@@ -36,7 +36,7 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 2G
+          memory: 256M
 
   postgres:
     image: postgres:latest
@@ -54,20 +54,22 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 512M
+          memory: 256M
 
   conversational-agent-server:
-    # image: rasa/rasa
     build:
       context: ./rasa-bot
     restart: "always"
+    networks:
+      - ca_network
     ports:
       - 5005:5005
     volumes:
       - ./rasa-bot/models/:/app/models/:rw
       - ./rasa-bot/data/:/app/data/
       - ./rasa-bot/config.yml:/app/config.yml
-      - ./rasa-bot/actions/:/app/actions/
+      - ./rasa-bot/endpoints.yml:/app/endpoints.yml
+      # - ./rasa-bot/actions/:/app/actions/
     command: 
       - run
     container_name: conversational-agent-server
@@ -76,19 +78,49 @@ services:
         limits:
           cpus: '1'
           memory: 1G
-    
-  # webui-server:
-  #   build:
-  #     context: ./web-ui
-  #   ports:
-  #     - "8080:80"
-  #   volumes:
-  #     - ./web-db:/web-db
-  #   container_name: webui-server
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '0.5'
-  #         memory: 512M
+
+  conversational-agent-action-server:
+    build:
+      context: ./rasa-bot
+    restart: "always"
+    networks:
+      - ca_network
+    ports:
+      - 5055:5055
+    volumes:
+      - ./rasa-bot/models/:/app/models/:rw
+      - ./rasa-bot/data/:/app/data/
+      - ./rasa-bot/config.yml:/app/config.yml
+      - ./rasa-bot/endpoints.yml:/app/endpoints.yml
+      - ./rasa-bot/actions/:/app/actions/
+    command: 
+      - run
+      - actions
+    container_name: conversational-agent-action-server
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+
+              
+  webui-server:
+    build:
+      context: ./web-ui
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web-db:/web-db
+    container_name: webui-server
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+
+networks:
+  ca_network:
+    driver: bridge
 
   
