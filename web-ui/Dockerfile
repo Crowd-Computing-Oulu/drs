@@ -5,7 +5,7 @@ FROM php:7.4-apache
 WORKDIR /var/www/html
 
 # Copy the contents of the local web-ui folder to the container's working directory
-COPY ./ /var/www/html/
+COPY . /var/www/html/
 
 # Expose port 80 for the Apache web server
 EXPOSE 80

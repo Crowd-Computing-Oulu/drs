@@ -9,12 +9,17 @@ nlu:
     - hello there
     - good morning
     - good evening
-    - moin
     - hey there
     - let's go
     - hey dude
     - goodmorning
     - goodevening
+    - hi pepper
+    - hey
+    - moi
+    - terve
+    - what's up
+    - nice to meet you
     - good afternoon
 
 - intent: goodbye
@@ -29,6 +34,16 @@ nlu:
     - see you around
     - bye bye
     - see you later
+    - thank you bye
+
+- intent: thank_you
+  examples: |
+    - thank you
+    - thanks
+    - I appreciate it
+    - thanks so much
+    - thank you pepper
+    - okay thank you
 
 - intent: affirm
   examples: |
@@ -38,6 +53,11 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - perfect
+    - right
+    - that's it
+    - let's do that
+    - yeah
 
 - intent: deny
   examples: |
@@ -48,44 +68,71 @@ nlu:
     - don't like that
     - no way
     - not really
+    - nope
+    - nah
+    - i disagree
+    - that's wrong
+    - incorrect
 
-- intent: mood_great
+- intent: who_are_you
   examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+    - who are you?
+    - what is this?
+    - what is your name?
+    - what are you?
+    - are you a robot?
+    - are you a person?
+    - what do you do?
+    - why are you here?
 
-- intent: mood_unhappy
+- intent: how_to_use
   examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+    - what do I do?
+    - how do I use this thing?
+    - can you tell me what to do?
+    - how do I start?
+    - where to I start?
+    - what do I say?
+    - where to begin?
 
-- intent: bot_challenge
+- intent: init_nav
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+    - can you help me with navigation?
+    - do you know where this is?
+    - how do I get here?
+    - where is it?
+    - how do I find this
+    - help me get there
+    - i have a question
+    - i need help
+
+- intent: init_nav_red_triangle
+  examples: |
+    - can you take me to red triangle?
+    - show me the way to the red triangle
+    - how do I get to the red triangle?
+
+- intent: init_nav_blue_triangle
+  examples: |
+    - can you take me to blue triangle?
+    - show me the way to the blue triangle
+    - how do I get to the blue triangle?
+
+- intent: repeat
+  examples: |
+    - can you say again
+    - can you repeat that
+    - repeat that please
+    - say that again please
+    - i didn't catch that
+    - i didn't hear that
+    - pardon?
+
+- intent: ask_transfer_to_wearable
+  examples: |
+    - can we continue on my watch?
+    - can you hop onto my watch?
+    - can you come with me?
+    - can you continue in my wearable device?
+    - hop over to my watch
+    - can you hop into my watch?

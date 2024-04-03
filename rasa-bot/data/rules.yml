@@ -9,5 +9,21 @@ rules:
 
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
-  - intent: bot_challenge
+  - intent: who_are_you
   - action: utter_iamabot
+
+- rule: transfer to watch when user wants to
+  steps:
+  - intent: ask_transfer_to_wearable
+  - action: action_transfer_to_wearable
+
+- rule: repeat last utterrance when user asks
+  steps:
+  - intent: repeat
+  - action: action_repeat
+
+- rule: always respond to thank you
+  steps:
+  - intent: thank_you
+  - action: utter_no_problem
+
