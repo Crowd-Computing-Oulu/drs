@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Rasa Chat Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col h-screen justify-center items-center bg-blue-100">
+  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+    <img class="w-16 inline-block pb-4"
+      src="https://www.generationrobots.com/pepper/wp-content/uploads/2018/07/pepper-robot-2-2000x1200.png" \>
+    <span class="text-4xl">
+      Pepper Bot
+    </span>
+    <div id="bubbles" class="mt-4 mb-4 h-96 overflow-auto"></div>
+    <div class="flex items-center">
+      <input type="text" id="user-input" autofocus class="flex-1 border rounded-md py-2 px-3 mr-2"
+        placeholder="Type your message here...">
+      <button onclick="sendUserMessage()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Send</button>
+    </div>
+  </div>
+</body>
+
+<script>
+  const userInput = document.getElementById("user-input");
+  const bubbles = document.getElementById("bubbles");
+
+  function sendUserMessage() {
+    const payload = {
+      sender: "user123",
+      message: userInput.value
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    };
+    fetch("http://localhost:3000/webhooks/rest/webhook", requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        let responseHtml = "";
+        console.log(data);
+        data.forEach(line => {
+          if (line.text) {
+            responseHtml += "<div class='mb-3 chat-bubble bot-bubble'>" + line.text + "</div><br>";
+          }
+          if (line.image) {
+            responseHtml += "<img class='mb-3 rounded' src='" + line.image + "'/>";
+          }
+        });
+        bubbles.innerHTML += responseHtml;
+        bubbles.scrollTop = bubbles.scrollHeight;
+      })
+      .catch(error => console.error(error));
+
+    // add user message to chat window
+    const userMessage = "<p class='mb-3 chat-bubble user-bubble'>" + userInput.value + "</p><br>";
+    bubbles.innerHTML += userMessage;
+    bubbles.scrollTop = bubbles.scrollHeight;
+  }
+
+  // add event listener to input field
+  userInput.addEventListener("keyup", function (event) {
+    // check if the "Enter" key is pressed
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      // call the sendUserMessage function
+      sendUserMessage();
+      userInput.value = "";
+    }
+  });
+</script>
+
+<style>
+  .chat-bubble {
+    display: inline-block;
+    max-width: 250px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+  }
+
+  .user-bubble {
+    background-color: #F3F4F6;
+    color: #111827;
+    text-align: right;
+  }
+
+  .bot-bubble {
+    background-color: #60A5FA;
+    color: #F9FAFB;
+    text-align: left;
+  }
+</style>
+
+</html>
