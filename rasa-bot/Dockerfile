@@ -10,8 +10,8 @@ WORKDIR /app
 ENV HOME=/app
 COPY . .
 
-# train a new rasa model
-RUN rasa train
+# train a new rasa model (normally we are happy with just copying a pre-trained model from development phase)
+# RUN rasa train
 
 # set the user to run, don't run as root
 USER 1001
@@ -20,4 +20,4 @@ USER 1001
 ENTRYPOINT ["rasa"]
 
 # command to run when container is called to run
-CMD ["run", "--enable-api", "--debug", "--port", "5005"]
+CMD ["run", "--enable-api", "--debug", "--port", "5005", "--cors", "*"]

@@ -1,24 +1,79 @@
 version: "3.1"
 
 intents:
+  - start_nav
+  - nav_dest_given
+  - nav_location_given
+  - action_utter_destination
+  - where_am_i
+  # unrelated to navigation
   - greet
   - goodbye
   - affirm
   - deny
   - who_are_you
-  - how_to_use
-  - init_nav
   - repeat
-  - init_nav_red_triangle
-  - init_nav_blue_triangle
   - ask_transfer_to_wearable
   - thank_you
+  - how_to_use
 
 actions:
+  - action_store_destination
+  - action_store_location
+  - action_get_path
+  - action_utter_destination
+  - action_where_am_i
+  # unrelated to navigation
   - action_repeat
   - action_transfer_to_wearable
+  
+entities:
+- landmark:
+    roles:
+    - location
+    - destination
+- location
+- destination
+- device
+
+slots:
+  destination:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: landmark
+      role: destination
+
+  location:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: landmark
+      role: location
+
+forms:
+  navigation_form:
+    required_slots:
+        - destination
+        - location
 
 responses:
+
+  utter_ask_location:
+  - text: "Where are you now?"
+  - text: "What is your current location?"
+  - text: "What is your location now?"
+  - text: "What is your position now?"
+
+  utter_ask_destination:
+  - text: "Where would you like to go?"
+  - text: "What is your destination?"
+  - text: "Where would you like to go?"
+  - text: "What are you looking for?"
+
+#  below is unrelated to navigation
   utter_greet:
   - text: "Hey, how are you?"
   - text: "Hi there. Nice to meet you."
@@ -26,7 +81,7 @@ responses:
   - text: "Hello, How are you doing?"
   - text: "Howdy"
   - text: "Hi. How can I help you?"
-  - text: "Hello. How may help you today?"
+  - text: "Hello. How may I help you today?"
   - text: "Hi there. What can I do for you?"
 
   utter_goodbye:
@@ -48,24 +103,11 @@ responses:
   utter_instructions:
   - text: "Just press the speak button and talk to me. Give it a try!"
 
-  utter_ask_destination:
-  - text: "Where would you like to go?"
-  - text: "What is your destination?"
-  - text: "Where would you like to go?"
-  - text: "What are you looking for?"
-
   utter_no_problem:
   - text: "No problem!"
   - text: "Glad to be of help!"
   - text: "My pleasure!"
   - text: "You're welcome!"
-
-  utter_robot_only_nav_to_red_triangle:
-  - text: "First, you need to walk towards the green circle. Then, turn right and when you reach the blue triangle, walk past the yellow square to find the red triangle."
-
-  utter_robot_only_nav_to_blue_triangle:
-  - text: "First, you need to walk towards the blue circle. Then, turn right and when you reach the blue square, walk past the yellow square to find the blue triangle."
-
 
 session_config:
   session_expiration_time: 60

@@ -67,11 +67,10 @@ services:
     volumes:
       - ./rasa-bot/models/:/app/models/:rw
       - ./rasa-bot/data/:/app/data/
-      - ./rasa-bot/config.yml:/app/config.yml
-      - ./rasa-bot/endpoints.yml:/app/endpoints.yml
-      # - ./rasa-bot/actions/:/app/actions/
+      - ./rasa-bot/config.yml:/app/config.yml:rw
+      - ./rasa-bot/endpoints.yml:/app/endpoints.yml:rw
     command: 
-      - run
+    - "run"
     container_name: conversational-agent-server
     deploy:
       resources:

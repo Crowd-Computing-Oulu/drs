@@ -13,67 +13,59 @@ stories:
   - intent: goodbye
   - action: utter_goodbye
 
-- story: robot_only_nav_to_red_triangle1
+- story: start_nav_no_destination
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: how_to_use
-  - action: utter_instructions
-  - intent: init_nav
+  - intent: start_nav
+  - slot_was_set:
+    - destination: null
   - action: utter_ask_destination
-  - intent: init_nav_red_triangle
-  - action: utter_robot_only_nav_to_red_triangle
-  - intent: thank_you
-  - action: utter_no_problem
-  - intent: goodbye
-  - action: utter_goodbye
 
-- story: robot_only_nav_to_red_triangle2
+- story: start_nav_with_destination
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: init_nav
-  - action: utter_ask_destination
-  - intent: init_nav_red_triangle
-  - action: utter_robot_only_nav_to_red_triangle
-  - intent: goodbye
-  - action: utter_goodbye
+  - intent: start_nav
+  - slot_was_set:
+    - destination: "blue square"
+  - action: action_store_destination
 
-- story: robot_only_nav_to_blue_triangle1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: how_to_use
-  - action: utter_instructions
-  - intent: init_nav
-  - action: utter_ask_destination
-  - intent: init_nav_blue_triangle
-  - action: utter_robot_only_nav_to_blue_triangle
-  - intent: goodbye
-  - action: utter_goodbye
-  - intent: thank_you
-  - action: utter_no_problem
 
-- story: robot_only_nav_to_blue_triangle2
+- story: nav_dest_given
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: init_nav
-  - action: utter_ask_destination
-  - intent: init_nav_blue_triangle
-  - action: utter_robot_only_nav_to_blue_triangle
-  - intent: goodbye
-  - action: utter_goodbye
+  - intent: nav_dest_given
+  - action: action_store_destination
+  - action: utter_ask_location
 
-- story: interactive_story_1
+- story: nav_dest_given
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: who_are_you
-  - action: utter_iamabot
-  - intent: init_nav
+  - intent: nav_dest_given
+  - action: action_store_destination
+  - slot_was_set:
+    - destination: "red triangle"
+  - action: utter_ask_location
+
+- story: no_destination
+  steps:
+  - slot_was_set:
+    - destination: null
   - action: utter_ask_destination
-  - intent: init_nav_red_triangle
-  - action: utter_robot_only_nav_to_red_triangle
-  - intent: thank_you
-  - action: utter_no_problem
+
+- story: have_destination
+  steps:
+  - slot_was_set:
+    - destination: blue circle
+  - action: utter_ask_location
+
+- story: nav_location_given_no_destination
+  steps:
+  - intent: nav_location_given
+  - slot_was_set:
+    - destination: null
+  - action: action_store_location
+  - action: utter_ask_destination
+
+- story: nav_location_given_with_destination
+  steps:
+  - intent: nav_location_given
+  - slot_was_set:
+    - destination: "red triangle"
+  - action: action_store_location
+  - action: action_utter_destination

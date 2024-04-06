@@ -21,9 +21,7 @@ A combination of Docker services to provide a conversational agent (e.g. one emb
 2. Install Rasa: `python3.8 -m pip install rasa`
 3. Train Rasa Model: `sudo rasa train`
      1. Run Rasa Actions server: `rasa run actions`
-     2. Run Rasa Model server in CLI: `rasa shell`
-     1. Start it with `rasa run --enable-api --cors "*" --debug -p 3000` for local testing without docker and stuff
-     2. Host the PHP web GUI to interact iwth Rasa. Run `php -S 0.0.0.0:8080` in `web-ui`
+     2. Run Rasa Model server in CLI: `rm -rf models/;clear;rasa train --domain domain.yml --config config.yml;rasa run --enable-api --cors "*" --debug -p 5005`
 3. Make sure you have [Docker](https://docs.docker.com/desktop/) installed and running
 4. Start the containers with `start-servers.sh`
 5. Validate that all containers are running with `validate-containers.sh`

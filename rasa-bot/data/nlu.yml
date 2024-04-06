@@ -1,6 +1,50 @@
 version: "3.1"
 
 nlu:
+
+- intent: start_nav
+  examples: |
+    - can you help me with navigation?
+    - do you know where this is?
+    - how do I get here?
+    - where is it?
+    - how do I find this
+    - help me get there
+    - i have a question
+    - i need help
+
+- intent: where_am_i
+  examples: |
+    - where am i
+    - what is my location now
+    - what is my destination
+    - where are we now
+
+- intent: nav_location_given
+  examples: |
+    - I am at the [red circle]{"entity": "landmark", "role": "location"}
+    - At [green triangle]{"entity": "landmark", "role": "location"}
+    - My location is [blue square]{"entity": "landmark", "role": "location"}
+    - I am currently at the [blue circle]{"entity": "landmark", "role": "location"}
+    - My location is marked by the [red square]{"entity": "landmark", "role": "location"}
+    - Currently standing near the [blue triangle]{"entity": "landmark", "role": "location"}
+    - At the [green square]{"entity": "landmark", "role": "location"}
+
+- intent: nav_dest_given
+  examples: |
+    - I want to go to the [red triangle]{"entity": "landmark", "role": "destination"}
+    - Can you take me to the [blue square]{"entity": "landmark", "role": "destination"}?
+    - Show me where the [green circle]{"entity": "landmark", "role": "destination"} is
+    - I want to go to [red triangle]{"entity": "landmark", "role": "destination"}
+    - Can you take me to [blue square]{"entity": "landmark", "role": "destination"}
+    - Show me where [green circle]{"entity": "landmark", "role": "destination"} is
+    - Where is the [green circle]{"entity": "landmark", "role": "destination"}
+    - To the [red triangle]{"entity": "landmark", "role": "destination"}
+
+# #################################################
+# below this are intents unrelated to navigation
+# #################################################
+
 - intent: greet
   examples: |
     - hey
@@ -8,47 +52,34 @@ nlu:
     - hi
     - hello there
     - good morning
+    - good afternoon
     - good evening
     - hey there
     - let's go
-    - hey dude
     - goodmorning
     - goodevening
     - hi pepper
-    - hey
-    - moi
-    - terve
     - what's up
     - nice to meet you
-    - good afternoon
+
 
 - intent: goodbye
   examples: |
-    - cu
-    - good by
-    - cee you later
+    - see you later
     - good night
     - bye
     - goodbye
     - have a nice day
-    - see you around
-    - bye bye
-    - see you later
-    - thank you bye
 
 - intent: thank_you
   examples: |
     - thank you
     - thanks
     - I appreciate it
-    - thanks so much
-    - thank you pepper
-    - okay thank you
 
 - intent: affirm
   examples: |
     - yes
-    - y
     - indeed
     - of course
     - that sounds good
@@ -62,7 +93,6 @@ nlu:
 - intent: deny
   examples: |
     - no
-    - n
     - never
     - I don't think so
     - don't like that
@@ -71,7 +101,7 @@ nlu:
     - nope
     - nah
     - i disagree
-    - that's wrong
+    - wrong
     - incorrect
 
 - intent: who_are_you
@@ -94,29 +124,6 @@ nlu:
     - where to I start?
     - what do I say?
     - where to begin?
-
-- intent: init_nav
-  examples: |
-    - can you help me with navigation?
-    - do you know where this is?
-    - how do I get here?
-    - where is it?
-    - how do I find this
-    - help me get there
-    - i have a question
-    - i need help
-
-- intent: init_nav_red_triangle
-  examples: |
-    - can you take me to red triangle?
-    - show me the way to the red triangle
-    - how do I get to the red triangle?
-
-- intent: init_nav_blue_triangle
-  examples: |
-    - can you take me to blue triangle?
-    - show me the way to the blue triangle
-    - how do I get to the blue triangle?
 
 - intent: repeat
   examples: |

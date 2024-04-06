@@ -39,7 +39,7 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     };
-    fetch("http://localhost:3000/webhooks/rest/webhook", requestOptions)
+    fetch("http://localhost:5005/webhooks/rest/webhook", requestOptions)
       .then(response => response.json())
       .then(data => {
         let responseHtml = "";
@@ -70,7 +70,6 @@
       event.preventDefault();
       // call the sendUserMessage function
       sendUserMessage();
-      userInput.value = "";
     }
   });
 </script>

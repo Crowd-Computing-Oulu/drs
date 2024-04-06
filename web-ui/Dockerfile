@@ -13,5 +13,8 @@ EXPOSE 80
 # Define a volume for /web-db to allow data to persist outside the container
 VOLUME ["/web-db"]
 
+# Disable PHP access log
+RUN sed -i 's/CustomLog .*/CustomLog \/dev\/null combined/' /etc/apache2/apache2.conf
+
 # Start the Apache web server
 CMD ["apache2-foreground"]
