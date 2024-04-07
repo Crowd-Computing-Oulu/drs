@@ -13,23 +13,47 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
-class ActionAskDestination(Action):
-    def name(self) -> Text:
-        return "action_ask_destination"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message("What is your destination?")
-        return []
+all_landmarks = [
+    'red circle',
+    'red square',
+    'red triangle',
+    'green circle',
+    'green square',
+    'green triangle',
+    'blue circle',
+    'blue square',
+    'blue triangle'
+]
 
 class ActionStoreDestination(Action):
     def name(self) -> Text:
         return "action_store_destination"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        destination = tracker.latest_message['entities'][0]["value"]
-        if(destination in ['red triangle', 'blue square', 'green circle']):
-            print(f"storing destination: {destination}")
-            return [SlotSet("destination", destination)]
+        landmark = tracker.latest_message['entities'][0]["value"].lower()
+
+        # lets make sure it is an actual landmark
+        if(landmark not in all_landmarks):
+            dispatch_and_print(f"Sorry, I don't know where \"{landmark}\" is.")
+            return[]
+        
+        # just in case we were specifically asking for location but the NLU mislabelled the entity role
+        if tracker.latest_action_name == "utter_ask_location":
+            print(f"storing location: {landmark}")
+            return [SlotSet("location", landmark)]
+
+        if(landmark in ['red triangle', 'blue square', 'green circle']):
+            # since we have the destination but no location, let's ask for the location
+            if tracker.slots.get("location") is None:
+                dispatch_and_print(dispatcher, template="utter_ask_location")
+            # we have both so its time to give directions
+            else:
+                location = tracker.get_slot("location").lower()
+                message = get_next_target_message(location, landmark)
+                dispatch_and_print(dispatcher, message)
+
+            print(f"storing destination: {landmark}")
+            return [SlotSet("destination", landmark)]
         else:
             message = f"I don't know such a destination. The possible destinations are blue square, green circle and red triangle."
             dispatch_and_print(dispatcher, message)
@@ -39,28 +63,109 @@ class ActionStoreLocation(Action):
         return "action_store_location"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        location = tracker.latest_message['entities'][0]["value"]
-        print(f"storing location: {location}")
-        return [SlotSet("location", location)]
+        landmark = tracker.latest_message['entities'][0]["value"].lower()
+
+        if(landmark not in all_landmarks):
+            dispatch_and_print(f"Sorry, I don't know where \"{landmark}\" is.")
+            return[]
+        
+        # just in case we were specifically asking for location but the NLU mislabelled the entity role
+        if tracker.latest_action_name == "utter_ask_destination":
+            print(f"storing destination: {landmark}")
+            return [SlotSet("destination", landmark)]
+        
+        # since we have the location but no destination, let's ask for the destination
+        if tracker.slots.get("destination") is None:
+            dispatch_and_print(dispatcher, template="utter_ask_destination")
+        # we have both so its time to give directions
+        else:
+            destination = tracker.get_slot("destination").lower()
+            message = get_next_target_message(landmark, destination)
+            dispatch_and_print(dispatcher, message)
+
+        print(f"storing location: {landmark}")
+        return [SlotSet("location", landmark)]
+    
+class ActionStoreNextLocation(Action):
+    def name(self) -> Text:
+        return "action_store_next_location"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # lets make sure we actually have the two slots
+        if tracker.slots.get("location") is None:
+            # Location slot is missing, ask for location
+            dispatch_and_print(dispatcher, template="utter_ask_location")
+            return []
+        elif tracker.slots.get("destination") is None:
+            # destination slot is missing, ask for destination
+            dispatch_and_print(dispatcher, template="utter_ask_destination")
+            return []
+        else:
+            prev_location = tracker.get_slot('location').lower()
+            destination = tracker.get_slot("destination").lower()
+            curr_location = get_next_target(prev_location, destination)
+            message = get_next_target_message(curr_location, destination)
+            dispatch_and_print(dispatcher, message)
+
+        print(f"storing location: {curr_location}")
+        return [SlotSet("location", curr_location)]
 
 class ActionUtterDestination(Action):
     def name(self) -> Text:
-        return "action_utter_destination"
+        return "action_utter_next_target"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        location = tracker.get_slot('location')
-        destination = tracker.get_slot("destination")
-        message = get_next_target_message(location, destination)
-        dispatch_and_print(dispatcher, message)
-        return []
+        
+        # lets make sure we actually have the two slots
+        if tracker.slots.get("location") is None:
+            # Location slot is missing, ask for location
+            dispatch_and_print(dispatcher, template="utter_ask_location")
+            return []
+        elif tracker.slots.get("destination") is None:
+            # destination slot is missing, ask for destination
+            dispatch_and_print(dispatcher, template="utter_ask_destination")
+            return []
+        else:
+            location = tracker.get_slot('location').lower()
+            destination = tracker.get_slot("destination").lower()
+            message = get_next_target_message(location, destination)
+            dispatch_and_print(dispatcher, message)
+            return []
     
+class ActionUtterWholeRoute(Action):
+    def name(self) -> Text:
+        return "action_utter_whole_route"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        landmark = tracker.latest_message['entities'][0]["value"].lower()
+
+        # lets make sure it is an actual landmark
+        if(landmark not in all_landmarks):
+            dispatch_and_print(f"Sorry, I don't know where \"{landmark}\" is.")
+            return[]
+        
+        # just in case we were specifically asking for location but the NLU mislabelled the entity role
+        if tracker.latest_action_name == "utter_ask_location":
+            print(f"storing location: {landmark}")
+            return [SlotSet("location", landmark)]
+
+        if(landmark in ['red triangle', 'blue square', 'green circle']):
+            # we have both so its time to give directions
+            dispatch_and_print(dispatcher, template=f"utter_whole_route_to_{landmark.replace(' ', '_')}")
+            print(f"storing destination: {landmark}")
+            return [SlotSet("destination", landmark)]
+        else:
+            message = f"I don't know such a destination. The possible destinations are blue square, green circle and red triangle."
+
 class ActionWhereAmI(Action):
     def name(self) -> Text:
         return "action_where_am_i"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        location = tracker.get_slot('location')
-        destination = tracker.get_slot("destination")
+        location = tracker.get_slot('location').lower()
+        destination = tracker.get_slot("destination").lower()
        
         dispatch_and_print(dispatcher, f"You are at {location} and going to {destination}")
         return []
@@ -75,12 +180,62 @@ class ActionRepeat(Action):
         dispatch_and_print(dispatcher, tracker.events[-4].get('text'))
         return []
 
-def dispatch_and_print(dispatcher, text, custom_payload = {}):
-    print(f'OUTPUT: {text}')
-    dispatcher.utter_message(text, json_message = custom_payload)
-    
-    
+def dispatch_and_print(dispatcher, text=None, template=None, custom_payload = {}):
+    if(text != None):
+        print(f'OUTPUT: {text}')
+        dispatcher.utter_message(text, json_message = custom_payload)
+    elif(template != None):
+        print(f'OUTPUT: (template) {template}')
+        dispatcher.utter_message(template=template, json_message = custom_payload)   
+
+class ActionTransferToWearable(Action):
+    def name(self):
+        return "action_transfer_to_wearable"
+
+    def run(self, dispatcher, tracker, domain):
+        dispatch_and_print(dispatcher, 
+                           template="utter_confirm_transfer_to_watch", 
+                           custom_payload= {
+                                'device_instruction': 'transfer_to_wearable'
+                            })
+
 def get_next_target_message(location, destination):
+    
+    if(location not in all_landmarks):
+        message = f"Sorry, I don't know where \"{location}\" is."
+        return message
+
+    if(destination not in all_landmarks):
+        message = f"Sorry, I don't know where \"{destination}\" is."
+        return message
+
+    print(f"getting route from: {location} to: {destination}")
+    
+    routes = {
+        'blue square': ['red circle', 'green square', 'blue triangle',  'red square', 'blue circle', 'blue square'],
+        'green circle': ['red circle', 'blue triangle', 'green circle'],
+        'red triangle': ['red circle', 'green triangle', 'blue square', 'blue circle', 'red triangle']
+    }
+
+    instructions = {
+        'blue square': ['First, find the red circle.', 'Go left after the red circle and the green square will be on your right.', 'The blue triangle should be to your left side.',  'If you continue to the right of the blue triangle, you find the red square.', 'Continue straight and the blue circle will be on your right', 'Go right from the blue circle to find the blue square.'],
+        'green circle': ['First, find the red circle.', 'Go right and then left to go around the wallls and the blue triangle will be ahead of you.', 'Turn left at the blue triangle and cross the doors to your right to find th green circle.'],
+        'red triangle': ['First, find the red circle.', 'Go right and follow the wall to find the green triangle to your right.', 'Continue straight to the blue square.', 'At the blue square, turn left.', 'Turn right at the blue circle to find the red triangle.']
+    }
+    
+    if(destination not in routes):
+        message = f"I don't know such a destination. The possible destinations are blue square, green circle and red triangle."
+    elif(location not in routes[destination]):
+        message = f"You are off-path to {destination}. Return to your previous location."
+    elif(routes[destination].index(location) == len(routes[destination])-1):
+        message = f"You should now see your destination."
+    else:
+        message = instructions[destination][routes[destination].index(location) + 1]  
+        
+    return message
+
+    
+def get_next_target(location, destination):
     
     print(f"getting route from: {location} to: {destination}")
     
@@ -91,14 +246,13 @@ def get_next_target_message(location, destination):
     }
     
     if(destination not in routes):
-        message = f"I don't know such a destination. The possible destinations are blue square, green circle and red triangle."
+        return None
     elif(location not in routes[destination]):
-        message = f"You are off-path to {destination}. Return to your previous location."
+        return None
     elif(routes[destination].index(location) == len(routes[destination])-1):
-        message = f"You should now see your destination."
+        return None
     else:
-        next_landmark = routes[destination][routes[destination].index(location) + 1]  
-        message = f"Next, go to {next_landmark}."
-        
-    return message
+        return routes[destination][routes[destination].index(location) + 1]  
+
+         
          

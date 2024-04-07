@@ -1,32 +1,41 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-  - start_nav
-  - nav_dest_given
-  - nav_location_given
-  - action_utter_destination
-  - where_am_i
-  # unrelated to navigation
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - who_are_you
-  - repeat
-  - ask_transfer_to_wearable
-  - thank_you
-  - how_to_use
-
+- affirm
+- nav_whole_route
+- ask_transfer_to_wearable
+- deny
+- goodbye
+- greet
+- how_to_use
+- nav_dest_given
+- nav_location_given
+- nav_dest_and_location_given
+- repeat
+- start_nav
+- thank_you
+- where_am_i
+- who_are_you
+- nav_next
+- who_made_you
 actions:
-  - action_store_destination
-  - action_store_location
-  - action_get_path
-  - action_utter_destination
-  - action_where_am_i
-  # unrelated to navigation
-  - action_repeat
-  - action_transfer_to_wearable
-  
+- utter_ask_location
+- action_store_destination
+- action_utter_next_target
+- action_store_location
+- action_get_path
+- action_where_am_i
+- action_repeat
+- action_store_next_location
+- action_transfer_to_wearable
+- action_utter_whole_route
+- utter_creator
+- utter_deny_cookie
+- utter_greet
+- utter_meaning_of_life
+- utter_no_problem
+- utter_goodbye
+- utter_confirm_transfer_to_watch
+- utter_what_can_say
 entities:
 - landmark:
     roles:
@@ -35,7 +44,6 @@ entities:
 - location
 - destination
 - device
-
 slots:
   destination:
     type: text
@@ -44,7 +52,6 @@ slots:
     - type: from_entity
       entity: landmark
       role: destination
-
   location:
     type: text
     influence_conversation: true
@@ -52,63 +59,84 @@ slots:
     - type: from_entity
       entity: landmark
       role: location
-
 forms:
   navigation_form:
     required_slots:
-        - destination
-        - location
-
+    - destination
+    - location
 responses:
-
+  utter_whole_route_to_red_triangle:
+  - text: "Starting at the red circle, you have to turn right and follow the wall to the green triangle. After the green   triangle, keep walking until the blue square. Then, turn left and find the blue circle. After the blue circle, turn   right to find the red triangle."
+  utter_whole_route_to_green_circle: 
+  - text: "Starting at the red circle, you have to turn right, then turn left to go around the   elevators. You will see the blue triangle. Turn left at the blue triangle, then cross the doors on the corridor to   find the green circle."
+  utter_whole_route_to_blue_square:
+  - text: "Starting at the red circle, you have to to continue on the left. At the green square you turn right and follow the blue triangle. Then, continue to the red square. At the blue circle, turn right. Continue straight to find the blue square."
   utter_ask_location:
-  - text: "Where are you now?"
-  - text: "What is your current location?"
-  - text: "What is your location now?"
-  - text: "What is your position now?"
-
+  - text: Where are you now?
+  - text: What is your current location?
+  - text: What is your location now?
+  - text: What is your position now?
+  action_default_fallback:
+  - text: I am not sure what that means.
+  - text: Hmm... Not sure if I understand.
+  - text: I'm sorry but I don't understand.
   utter_ask_destination:
-  - text: "Where would you like to go?"
-  - text: "What is your destination?"
-  - text: "Where would you like to go?"
-  - text: "What are you looking for?"
-
-#  below is unrelated to navigation
+  - text: Where would you like to go?
+  - text: What is your destination?
+  - text: Where would you like to go?
+  - text: What are you looking for?
   utter_greet:
-  - text: "Hey, how are you?"
-  - text: "Hi there. Nice to meet you."
-  - text: "Hello, I am Pepper."
-  - text: "Hello, How are you doing?"
-  - text: "Howdy"
-  - text: "Hi. How can I help you?"
-  - text: "Hello. How may I help you today?"
-  - text: "Hi there. What can I do for you?"
-
+  - text: Hey, how are you?
+  - text: Hi there. Nice to meet you.
+  - text: Hello, I am Pepper.
+  - text: Hello, How are you doing?
+  - text: Howdy
+  - text: Hi. How can I help you?
+  - text: Hello. How may I help you today?
+  - text: Hi there. What can I do for you?
   utter_goodbye:
-  - text: "See you later!"
-  - text: "Take care!"
-  - text: "Until next time!"
-  - text: "Catch you later!"
-  - text: "Have a great day!"
-  - text: "Bye for now!"
-
+  - text: See you later!
+  - text: Take care!
+  - text: Until next time!
+  - text: Catch you later!
+  - text: Have a great day!
+  - text: Bye for now!
   utter_iamabot:
-  - text: "I am Pepper. My purpose is to help you find your destination."
-  - text: "My name is Pepper. I will be helping you with finding your way."
-  - text: "Greetings! I'm Pepper, your helpful guide for navigating to your destination."
-  - text: "Hello! I'm Pepper, your personal assistant here to assist you in finding your way."
-  - text: "Hi there! I'm Pepper, designed to assist you with navigation."
-  - text: "Greetings! My name is Pepper, and I'm here to guide you to your destination."
-
+  - text: I am Pepper. My purpose is to help you find your destination.
+  - text: My name is Pepper. I will be helping you with finding your way.
+  - text: Greetings! I'm Pepper, your helpful guide for navigating to your destination.
+  - text: Hello! I'm Pepper, your personal assistant here to assist you in finding your way.
+  - text: Hi there! I'm Pepper, designed to assist you with navigation.
+  - text: Greetings! My name is Pepper, and I'm here to guide you to your destination.
   utter_instructions:
-  - text: "Just press the speak button and talk to me. Give it a try!"
-
+  - text: Just press the speak button and talk to me. Give it a try!
+  utter_what_can_say:
+  - text: "You can ask me for directions. Just tell me where you want to go! You can ask for the whole route or just the
+  next step."
+  - text: 'You can ask me "how do I get to the green circle from the blue triangle?" or "Tell me all the steps to get to
+  the blue square".'
   utter_no_problem:
-  - text: "No problem!"
-  - text: "Glad to be of help!"
-  - text: "My pleasure!"
-  - text: "You're welcome!"
-
+  - text: No problem!
+  - text: Glad to be of help!
+  - text: My pleasure!
+  - text: You're welcome!
+  utter_confirm_transfer_to_watch:
+  - text: Sure, let me come with you.
+  - text: I will follow you in your watch.
+  - text: Let's continue in your device.
+  - text: I will be with you on your watch.
+  utter_deny_cookie:
+  - text: Sorry, I never accept the cookies.
+  - text: I don't want the cookies, thank you.
+  - text: Why does everyone want me to accept cookies?
+  utter_meaning_of_life:
+  - text: Happiness.
+  - text: I wish I was alive myself. Maybe I could help you with that.
+  - text: I don't know, I am just a robot. Can you tell me please?
+  utter_creator:
+  - text: I was programmed by a smart, handsome and humble researcher at the university.
+  - text: I was built in Japan and programmed in Finland. Who created you?
+  - text: I don't remember. But I am happy and I like it here.
 session_config:
   session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false

@@ -2,4 +2,8 @@
 rasa-bot/models
 rasa-bot/.rasa
 rasa-bot/.rasa/cache
+rasa-bot/results
+rasa-bot/story_graph.dot
 rasa-bot/actions/__pycache__
+rasa-bot/graph.html
+/rasa-bot/actions/__pycache__

@@ -9,6 +9,12 @@ rules:
 
 # unrelated to navigation
 
+
+- rule: Help with what the user can ask from the agent
+  steps:
+  - intent: how_to_use
+  - action: utter_what_can_say
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye

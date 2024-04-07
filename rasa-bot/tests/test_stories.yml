@@ -2,90 +2,53 @@
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
 
 stories:
-- story: happy path 1
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
-
-- story: happy path 2
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
-  - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
-
-- story: sad path 1
+- story: navigate from start to red triangle 1
   steps:
   - user: |
       hello
     intent: greet
   - action: utter_greet
   - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+      can you take me to the [red triangle]{"entity": "landmark", "role": "destination"} 
+  - slot_was_set:
+    - destination: "red triangle"
+  - action: utter_ask_location
   - user: |
-      yes
-    intent: affirm
-  - action: utter_happy
+      i am at the [red circle]{"entity": "landmark", "role": "location"} 
+  - slot_was_set:
+    - location: "red circle"
+  - action: action_utter_next_target
 
-- story: sad path 2
+- story: navigate from start to red triangle 2
   steps:
   - user: |
       hello
     intent: greet
   - action: utter_greet
   - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+      i am at [red circle]{"entity": "landmark", "role": "location"} 
+  - slot_was_set:
+    - location: "red circle"
+    - action: utter_ask_destination
   - user: |
-      not really
-    intent: deny
-  - action: utter_goodbye
+      the [red triangle]{"entity": "landmark", "role": "destination"} 
+  - slot_was_set:
+    - destination: "red triangle"
+  - action: action_utter_next_target
 
-- story: sad path 3
+- story: navigate from start to green circle 1
   steps:
   - user: |
-      hi
+      hello
     intent: greet
   - action: utter_greet
   - user: |
-      very terrible
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+      can you take me to the [Green Circle]{"entity": "landmark", "role": "destination"} 
+  - slot_was_set:
+    - destination: "Green Circle"
+  - action: utter_ask_location
   - user: |
-      no
-    intent: deny
-  - action: utter_goodbye
-
-- story: say goodbye
-  steps:
-  - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
-
-- story: bot challenge
-  steps:
-  - user: |
-      are you a bot?
-    intent: bot_challenge
-  - action: utter_iamabot
+      i am at the [Red Circle]{"entity": "landmark", "role": "location"} 
+  - slot_was_set:
+    - location: "Red Circle"
+  - action: action_utter_next_target

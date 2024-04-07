@@ -13,9 +13,9 @@
 action_endpoint:
 # make sure it is indented otherwise it wont work!!!!!!!!!!!!!!!!!!!!!
 # use this in Docker
- url: "http://conversational-agent-action-server:5055/webhook"
+#  url: "http://conversational-agent-action-server:5055/webhook"
 # use this when playing around outside docker
-  # url: "http://0.0.0.0:5055/webhook"
+  url: "http://0.0.0.0:5055/webhook"
 
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.

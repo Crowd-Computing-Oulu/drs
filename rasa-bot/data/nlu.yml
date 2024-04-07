@@ -1,7 +1,5 @@
 version: "3.1"
-
 nlu:
-
 - intent: start_nav
   examples: |
     - can you help me with navigation?
@@ -12,39 +10,76 @@ nlu:
     - help me get there
     - i have a question
     - i need help
-
 - intent: where_am_i
   examples: |
     - where am i
     - what is my location now
     - what is my destination
     - where are we now
-
+- intent: nav_whole_route
+  examples: |
+    - can you give me the route to [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you detail the whole direction to [blue square]{"entity": "landmark", "role": "destination"}?
+    - tell me all the steps to get to [green circle]{"entity": "landmark", "role": "destination"}
+    - tell me the detailed instructions to get to [green circle]{"entity": "landmark", "role": "destination"}
+    - tell me the detailed steps to get to [green circle]{"entity": "landmark", "role": "destination"}
+    - tell me the entire way to get to [blue square]{"entity": "landmark", "role": "destination"}
+- intent: nav_next
+  examples: |
+    - okay i am here
+    - okay i arrived
+    - what is next
+    - where do i go now
+    - okay what is the next step
+    - next
+    - okay what comes next
+    - next target
+    - next location
+    - what to do now
+    - done
 - intent: nav_location_given
   examples: |
+    - i am at the [red circle]{"entity": "landmark", "role": "location"}
+    - at [green triangle]{"entity": "landmark", "role": "location"}
+    - my location is [blue square]{"entity": "landmark", "role": "location"}
+    - i am currently at the [blue circle]{"entity": "landmark", "role": "location"}
+    - my location is marked by the [red square]{"entity": "landmark", "role": "location"}
+    - currently standing near the [blue triangle]{"entity": "landmark", "role": "location"}
+    - at the [green square]{"entity": "landmark", "role": "location"}
     - I am at the [red circle]{"entity": "landmark", "role": "location"}
-    - At [green triangle]{"entity": "landmark", "role": "location"}
-    - My location is [blue square]{"entity": "landmark", "role": "location"}
-    - I am currently at the [blue circle]{"entity": "landmark", "role": "location"}
-    - My location is marked by the [red square]{"entity": "landmark", "role": "location"}
-    - Currently standing near the [blue triangle]{"entity": "landmark", "role": "location"}
-    - At the [green square]{"entity": "landmark", "role": "location"}
-
+    - i am at the [red circle]{"entity": "landmark", "role": "location"}
+    - ok now i arrived at the [blue triangle]{"entity": "landmark", "role": "location"}
 - intent: nav_dest_given
   examples: |
-    - I want to go to the [red triangle]{"entity": "landmark", "role": "destination"}
-    - Can you take me to the [blue square]{"entity": "landmark", "role": "destination"}?
-    - Show me where the [green circle]{"entity": "landmark", "role": "destination"} is
-    - I want to go to [red triangle]{"entity": "landmark", "role": "destination"}
-    - Can you take me to [blue square]{"entity": "landmark", "role": "destination"}
-    - Show me where [green circle]{"entity": "landmark", "role": "destination"} is
-    - Where is the [green circle]{"entity": "landmark", "role": "destination"}
-    - To the [red triangle]{"entity": "landmark", "role": "destination"}
-
-# #################################################
-# below this are intents unrelated to navigation
-# #################################################
-
+    - i want to go to the [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you take me to the [blue square]{"entity": "landmark", "role": "destination"}?
+    - show me where the [green circle]{"entity": "landmark", "role": "destination"} is
+    - i want to go to [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you take me to [blue square]{"entity": "landmark", "role": "destination"}
+    - show me where [green circle]{"entity": "landmark", "role": "destination"} is
+    - where is the [green circle]{"entity": "landmark", "role": "destination"}
+    - to the [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you help me find the [green circle]{"entity": "landmark", "role": "destination"}
+    - can u help me find the [blue square]{"entity": "landmark", "role": "destination"}
+    - can u help me find the [red triangle]{"entity": "landmark", "role": "destination"}
+    - help me find the [green circle]{"entity": "landmark", "role": "destination"}
+    - take me to the [green circle]{"entity": "landmark", "role": "destination"}
+- intent: nav_dest_and_location_given
+  examples: |
+    - i want to go to the [red triangle]{"entity": "landmark", "role": "destination"} from the [red circle]{"entity": "landmark", "role": "location"}
+    - can you take me to the [blue square]{"entity": "landmark", "role": "destination"} from the [red circle]{"entity": "landmark", "role": "location"}
+    - show me where the [green circle]{"entity": "landmark", "role": "destination"}. i am at the [red circle]{"entity":
+    "landmark", "role": "location"} now
+    - i want to from from the [red circle]{"entity": "landmark", "role": "location"} to the [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you take me from [blue triangle]{"entity": "landmark", "role": "location"} to [blue square]{"entity": "landmark", "role": "destination"}
+    - show me where [green circle]{"entity": "landmark", "role": "destination"} is from [blue triangle]{"entity": "landmark", "role": "location"}
+    - where is the [green circle]{"entity": "landmark", "role": "destination"} from [blue triangle]{"entity": "landmark", "role": "location"}
+    - to the [red triangle]{"entity": "landmark", "role": "destination"}
+    - can you help me find the [green circle]{"entity": "landmark", "role": "destination"}
+    - can u help me go from [red square]{"entity": "landmark", "role": "location"} to [blue square]{"entity": "landmark", "role": "destination"}
+    - can u help me find the [red triangle]{"entity": "landmark", "role": "destination"} starting from [red square]{"entity": "landmark", "role": "location"}
+    - help me find the [green circle]{"entity": "landmark", "role": "destination"} if i am now at [red square]{"entity": "landmark", "role": "location"}
+    - take me to the [green circle]{"entity": "landmark", "role": "destination"} from [red square]{"entity": "landmark", "role": "location"}
 - intent: greet
   examples: |
     - hey
@@ -61,8 +96,6 @@ nlu:
     - hi pepper
     - what's up
     - nice to meet you
-
-
 - intent: goodbye
   examples: |
     - see you later
@@ -70,13 +103,12 @@ nlu:
     - bye
     - goodbye
     - have a nice day
-
 - intent: thank_you
   examples: |
     - thank you
     - thanks
+    - cheers
     - I appreciate it
-
 - intent: affirm
   examples: |
     - yes
@@ -89,7 +121,6 @@ nlu:
     - that's it
     - let's do that
     - yeah
-
 - intent: deny
   examples: |
     - no
@@ -103,7 +134,6 @@ nlu:
     - i disagree
     - wrong
     - incorrect
-
 - intent: who_are_you
   examples: |
     - who are you?
@@ -114,7 +144,6 @@ nlu:
     - are you a person?
     - what do you do?
     - why are you here?
-
 - intent: how_to_use
   examples: |
     - what do I do?
@@ -124,7 +153,8 @@ nlu:
     - where to I start?
     - what do I say?
     - where to begin?
-
+    - what to say?
+    - what can you do?
 - intent: repeat
   examples: |
     - can you say again
@@ -134,7 +164,6 @@ nlu:
     - i didn't catch that
     - i didn't hear that
     - pardon?
-
 - intent: ask_transfer_to_wearable
   examples: |
     - can we continue on my watch?
@@ -143,3 +172,31 @@ nlu:
     - can you continue in my wearable device?
     - hop over to my watch
     - can you hop into my watch?
+    - can you follow me?
+    - please come with me
+- intent: want_cookie
+  examples: |
+    - do you want a cookie?
+    - would you like a cookie?
+- intent: meaning_of_life
+  examples: |
+    - what is the meaning of life?
+    - what is the purpose of life?
+- intent: who_made_you
+  examples: |
+    - who made you?
+    - where are you from?
+    - who created you?
+    - where did you come from?
+- lookup: landmark
+  examples: |
+    - red circle
+    - red square
+    - red triangle
+    - green circle
+    - green square
+    - green triangle
+    - blue circle
+    - blue square
+    - blue triangle
+
