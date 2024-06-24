@@ -50,7 +50,7 @@ stories:
     entities:
     - landmark: green circle
     - landmark: red circle
-  - action: action_utter_next_target
+  - action: action_store_location_and_destination
   - slot_was_set:
     - location: red circle
   - slot_was_set:
@@ -68,7 +68,7 @@ stories:
     entities:
     - landmark: blue square
     - landmark: red circle
-  - action: action_utter_next_target
+  - action: action_store_location_and_destination
   - slot_was_set:
     - destination: blue square
   - slot_was_set:
@@ -110,7 +110,7 @@ stories:
 
 - story: chitchat_story_1
   steps:
-  - intent: favourite_colour
+  - intent: greet
   - action: utter_greet
   - intent: want_cookie
   - action: utter_deny_cookie
@@ -129,3 +129,160 @@ stories:
   - action: utter_no_problem
   - intent: goodbye
   - action: utter_goodbye
+
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: nav_location_given
+    entities:
+    - landmark: red circle
+  - action: action_store_location
+  - slot_was_set:
+    - location: red circle
+  - slot_was_set:
+    - location: red circle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - action: action_store_destination
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_whole_route
+    entities:
+    - landmark: red triangle
+  - action: action_utter_whole_route
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_next
+  - action: action_store_next_location
+  - slot_was_set:
+    - location: green triangle
+  - intent: nav_location_given
+    entities:
+    - landmark: green triangle
+  - action: action_store_location
+  - slot_was_set:
+    - destination: green triangle
+  - intent: nav_location_given
+    entities:
+    - landmark: green triangle
+  - action: action_store_location
+  - slot_was_set:
+    - location: green triangle
+  - intent: nav_next
+  - action: action_store_next_location
+  - slot_was_set:
+    - location: blue square
+  - intent: nav_location_given
+    entities:
+    - landmark: green triangle
+  - action: action_store_location
+  - slot_was_set:
+    - location: green triangle
+  - intent: nav_whole_route
+    entities:
+    - landmark: red triangle
+  - slot_was_set:
+    - destination: red triangle
+  - action: action_utter_whole_route
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - action: action_store_destination
+  - intent: thank_you
+  - action: utter_no_problem
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: repeat
+  - action: action_repeat
+  - intent: nav_dest_given
+    entities:
+    - landmark: red triangle
+  - slot_was_set:
+    - destination: red triangle
+  - action: action_store_destination
+  - slot_was_set:
+    - destination: red triangle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red circle
+  - slot_was_set:
+    - destination: red circle
+  - intent: nav_dest_given
+    entities:
+    - landmark: red circle
+  - slot_was_set:
+    - destination: red circle
+  - intent: nav_location_given
+    entities:
+    - landmark: red circle
+  - action: action_store_location
+  - slot_was_set:
+    - location: red circle
+  - intent: nav_next
+  - action: action_store_next_location
+  - slot_was_set:
+    - location: green triangle
+  - intent: repeat
+  - action: action_repeat
+  - intent: nav_next
+  - action: action_store_next_location
+  - slot_was_set:
+    - location: blue square
+  - intent: nav_next
+    entities:
+    - landmark: blue square
+  - slot_was_set:
+    - destination: blue square
+  - intent: nav_location_given
+    entities:
+    - landmark: blue square
+  - action: action_store_location
+  - slot_was_set:
+    - location: blue square
+  - intent: nav_next
+    entities:
+    - landmark: blue square
+  - slot_was_set:
+    - location: blue square
+  - action: action_store_location
+  - slot_was_set:
+    - location: blue square
+
+- story: interactive_story_1
+  steps:
+  - intent: nav_location_given
+    entities:
+    - landmark: blue triangle
+    - landmark: green circle
+  - intent: nav_dest_and_location_given
+    entities:
+    - landmark: blue triangle
+    - landmark: green circle
+  - action: action_store_location_and_destination
+  - slot_was_set:
+    - location: blue triangle
+  - slot_was_set:
+    - destination: green circle

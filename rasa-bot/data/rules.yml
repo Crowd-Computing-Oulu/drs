@@ -9,6 +9,15 @@ rules:
 
 # unrelated to navigation
 
+- rule: Rule to handle messages with low NLU confidence (automated conversion from 'FallbackPolicy')
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback
+
+  - rule: restart when user asks for it
+  steps:
+  - intent: restart
+  - action: action_restart
 
 - rule: Help with what the user can ask from the agent
   steps:

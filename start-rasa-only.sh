@@ -54,5 +54,5 @@ fi
 # 5. Run Docker Compose which will build the images ands start the 4 servers
 # for some reason webui has to be rebuilt explicitly
 # docker compose up --build webui-server
-docker compose up
+docker compose -f "docker-compose-rasa-only.yml" up
 

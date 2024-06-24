@@ -1,49 +1,53 @@
 version: '3.1'
 intents:
 - affirm
-- nav_whole_route
 - ask_transfer_to_wearable
 - deny
 - goodbye
 - greet
+- restart
 - how_to_use
+- meaning_of_life
+- nav_dest_and_location_given
 - nav_dest_given
 - nav_location_given
-- nav_dest_and_location_given
+- nav_next
+- nav_whole_route
 - repeat
 - start_nav
 - thank_you
+- want_cookie
 - where_am_i
 - who_are_you
-- nav_next
 - who_made_you
 actions:
-- utter_ask_location
-- action_store_destination
-- action_utter_next_target
+- action_store_location_and_destination
+- utter_greet
+- action_repeat
 - action_store_location
+- action_store_next_location
+- action_store_destination
+- action_utter_whole_route
+- utter_no_problem
+- utter_iamabot
+- utter_ask_location
+- action_utter_next_target
 - action_get_path
 - action_where_am_i
-- action_repeat
-- action_store_next_location
 - action_transfer_to_wearable
-- action_utter_whole_route
 - utter_creator
 - utter_deny_cookie
-- utter_greet
 - utter_meaning_of_life
-- utter_no_problem
 - utter_goodbye
 - utter_confirm_transfer_to_watch
 - utter_what_can_say
+- action_restart
+- action_default_fallback
 entities:
 - landmark:
     roles:
     - location
     - destination
-- location
-- destination
-- device
 slots:
   destination:
     type: text
@@ -52,6 +56,7 @@ slots:
     - type: from_entity
       entity: landmark
       role: destination
+      auto_fill: false
   location:
     type: text
     influence_conversation: true
@@ -59,6 +64,7 @@ slots:
     - type: from_entity
       entity: landmark
       role: location
+      auto_fill: false
 forms:
   navigation_form:
     required_slots:
@@ -66,11 +72,11 @@ forms:
     - location
 responses:
   utter_whole_route_to_red_triangle:
-  - text: "Starting at the red circle, you have to turn right and follow the wall to the green triangle. After the green   triangle, keep walking until the blue square. Then, turn left and find the blue circle. After the blue circle, turn   right to find the red triangle."
-  utter_whole_route_to_green_circle: 
-  - text: "Starting at the red circle, you have to turn right, then turn left to go around the   elevators. You will see the blue triangle. Turn left at the blue triangle, then cross the doors on the corridor to   find the green circle."
+  - text: Starting at the red circle, you have to turn right and follow the wall to the green triangle. After the green   triangle, keep walking until the blue square. Then, turn left and find the blue circle. After the blue circle, turn   right to find the red triangle.
+  utter_whole_route_to_green_circle:
+  - text: Starting at the red circle, you have to turn right, then turn left to go around the   elevators. You will see the blue triangle. Turn left at the blue triangle, then cross the doors on the corridor to   find the green circle.
   utter_whole_route_to_blue_square:
-  - text: "Starting at the red circle, you have to to continue on the left. At the green square you turn right and follow the blue triangle. Then, continue to the red square. At the blue circle, turn right. Continue straight to find the blue square."
+  - text: Starting at the red circle, you have to to continue on the left. At the green square you turn right and follow the blue triangle. Then, continue to the red square. At the blue circle, turn right. Continue straight to find the blue square.
   utter_ask_location:
   - text: Where are you now?
   - text: What is your current location?
@@ -111,10 +117,8 @@ responses:
   utter_instructions:
   - text: Just press the speak button and talk to me. Give it a try!
   utter_what_can_say:
-  - text: "You can ask me for directions. Just tell me where you want to go! You can ask for the whole route or just the
-  next step."
-  - text: 'You can ask me "how do I get to the green circle from the blue triangle?" or "Tell me all the steps to get to
-  the blue square".'
+  - text: You can ask me for directions. Just tell me where you want to go! You can ask for the whole route or just the next step.
+  - text: You can ask me "how do I get to the green circle from the blue triangle?" or "Tell me all the steps to get to the blue square".
   utter_no_problem:
   - text: No problem!
   - text: Glad to be of help!

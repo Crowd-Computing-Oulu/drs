@@ -8,54 +8,6 @@ services:
   #   # runtime: nvidia
   #   container_name: speech-synthesis-server
 
-  speech-synthesis-server:
-    image: mycroftai/mimic3:latest
-    ports:
-      - "59125:59125"
-    # If you have a working nvidia GPU, speech synthesis can be ran on that for a performance boost
-    # runtime: nvidia
-    volumes:
-    - ./mimic3:/home/mimic3/.local/share/mycroft/mimic3
-    container_name: speech-synthesis-server
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 512M
-          
-  speech-recognition-server:
-    build:
-      context: ./whisper.api
-    ports:
-      - "9001:7860"
-    container_name: speech-recognition-server
-    environment:
-      # BuildKit has to be disabled because of Conflict
-      - COMPOSE_DOCKER_CLI_BUILD=0
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 512M
-
-  postgres:
-    image: postgres:latest
-    container_name: speech-recognition-server-db 
-    restart: always
-    environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
-    - POSTGRES_DB=db
-    ports:
-    - '5432:5432'
-    volumes:
-    - ./whisper-postgres-db:/var/lib/postgresql/data
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 256M
-
   conversational-agent-server:
     build:
       context: ./rasa-bot
@@ -99,9 +51,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: '2'
           memory: 512M
-
               
   webui-server:
     build:
